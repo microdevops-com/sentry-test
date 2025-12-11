@@ -1,0 +1,6 @@
+# .gitignore
+.pip_cache/
+.pip_packages/
+__pycache__/
+*.py[cod]
+.env

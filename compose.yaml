@@ -1,0 +1,16 @@
+name: sentry-test
+
+services:
+  sentry-test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    user: 1000:1000
+    volumes:
+      - ./:/app
+      - /etc/passwd:/etc/passwd:ro
+      - /etc/group:/etc/group:ro
+    env_file:
+      - .env
+    stdin_open: true
+    tty: true
