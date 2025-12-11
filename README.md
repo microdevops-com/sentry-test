@@ -95,7 +95,9 @@ The test script uses the following Sentry SDK configuration:
 ├── requirements.txt    # Python dependencies (sentry-sdk)
 ├── test_sentry.py      # Comprehensive Sentry telemetry test script
 ├── .env.example        # Example environment variables
-└── CLAUDE.md          # Development guide for Claude Code
+├── LICENSE             # GNU General Public License v3.0
+├── README.md           # This file
+└── CLAUDE.md           # Development guide for Claude Code
 ```
 
 ## Docker Environment
@@ -123,4 +125,4 @@ docker compose down
 
 ## License
 
-This project is provided as-is for testing purposes.
+This project is licensed under the GNU General Public License v3.0 - see the [LICENSE](LICENSE) file for details.
