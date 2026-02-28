@@ -4,7 +4,14 @@ Dockerized project to send sample errors, transactions, logs etc to Sentry (self
 
 ## Overview
 
-This project provides a containerized Python environment for testing Sentry's telemetry capabilities. It includes a comprehensive test script that continuously sends various types of data to your Sentry instance, allowing you to verify that all features are functioning correctly.
+This project provides a containerized Python environment for testing Sentry's telemetry capabilities.
+It includes a comprehensive test script that continuously sends various types of data to your Sentry instance, allowing you to verify that all features are functioning correctly.
+
+## SDK is Non-Blocking
+
+The Sentry SDK is designed to be non-blocking, meaning that it will not interfere with the normal execution of your application.
+When you send data to Sentry, it is sent asynchronously in the background, allowing your application to continue running without waiting for the data to be sent.
+But that also means that you will not see sending errors in the console output of `sentry-test` container, as they are handled internally by the SDK.
 
 ## Features
 
@@ -20,7 +27,7 @@ The test script sends the following telemetry data to Sentry:
 - Docker
 - Docker Compose
 
-## Setup
+## Setup and Use
 
 1. Clone the repository:
 ```bash
@@ -31,44 +38,20 @@ cd sentry-test
 2. Create a `.env` file with your Sentry DSN:
 ```bash
 cp .env.example .env
-# Edit .env and add your actual Sentry DSN
 ```
+3. Edit .env and add your actual Sentry DSN and UID/GID.
 
-3. Start the Docker environment:
+4. Start the Docker environment:
 ```bash
-docker compose up -d
+docker compose up
 ```
 
 Dependencies are automatically installed when the container starts.
-
-## Usage
-
-### Running the Test Script
-
-To start sending telemetry data to Sentry:
-
-```bash
-docker compose exec sentry-test python test_sentry.py
-```
 
 The script will:
 - Send one sample of each telemetry type (error, trace, profiling, logs) every second
 - Display what was sent in the console
 - Continue running until you press `Ctrl+C`
-
-### Interactive Development
-
-To access the container shell:
-
-```bash
-docker compose exec sentry-test bash
-```
-
-### Running Custom Scripts
-
-```bash
-docker compose exec sentry-test python your_script.py
-```
 
 ## Configuration
 
@@ -84,29 +67,8 @@ The test script uses the following Sentry SDK configuration:
 ### Environment Variables
 
 - `SENTRY_DSN` - Your Sentry Data Source Name (required)
-
-## Project Structure
-
-```
-.
-├── compose.yaml        # Docker Compose configuration
-├── Dockerfile          # Python 3.12 environment with debugging tools
-├── entrypoint.sh       # Auto-installs dependencies on container start
-├── requirements.txt    # Python dependencies (sentry-sdk)
-├── test_sentry.py      # Comprehensive Sentry telemetry test script
-├── .env.example        # Example environment variables
-├── LICENSE             # GNU General Public License v3.0
-├── README.md           # This file
-└── CLAUDE.md           # Development guide for Claude Code
-```
-
-## Docker Environment
-
-- **Base Image**: Python 3.12 (slim-bookworm)
-- **Working Directory**: `/app`
-- **Volume Mount**: Current directory mounted for live code editing
-- **User**: Runs as UID 1000:1000 (non-root)
-- **Packages**: Installed locally in `/app/.pip_packages` (persisted via volume)
+- `UID` - User ID for running the container (default: 1000)
+- `GID` - Group ID for running the container (default: 1000)
 
 ## Verifying Sentry
 
@@ -116,12 +78,6 @@ After running the test script, check your Sentry instance for:
 2. **Performance** - Transactions with spans should be visible
 3. **Profiling** - Function profiling data should be available
 4. **Logs** - Log entries at different severity levels
-
-## Stopping the Environment
-
-```bash
-docker compose down
-```
 
 ## License
 

@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    user: 1000:1000
+    user: ${UID:-1000}:${GID:-1000}
     volumes:
       - ./:/app
       - /etc/passwd:/etc/passwd:ro
