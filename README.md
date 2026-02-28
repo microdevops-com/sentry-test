@@ -43,7 +43,7 @@ cp .env.example .env
 
 4. Start the Docker environment:
 ```bash
-docker compose up
+docker compose up --build
 ```
 
 Dependencies are automatically installed when the container starts.
