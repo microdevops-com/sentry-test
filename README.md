@@ -39,7 +39,7 @@ cd sentry-test
 ```bash
 cp .env.example .env
 ```
-3. Edit .env and add your actual Sentry DSN and UID/GID.
+3. Edit `.env` and add your actual Sentry DSN and UID/GID.
 
 4. Start the Docker environment:
 ```bash
